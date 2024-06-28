@@ -43,8 +43,8 @@ export default function Home() {
         </div>
       </div>
 
+      <button onClick={getPicture}><h1>Button</h1></button>
       <div className={styles.center}>
-        <button onClick={getPicture}><h1>Button</h1></button>
         <h1>{picture}</h1>
       </div>
 

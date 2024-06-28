@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from PIL import Image
 import sys
 from flask_cors import CORS, cross_origin
@@ -15,16 +15,16 @@ CORS(app)
 # imageTwo = Image.open('IMG_4764.JPG')
 
 @app.route('/')
-@cross_origin()
 def helloWorld():
     return 'Hello World'
     # image = applyNoise(haldCut, imageTwo)
     # return image
 
-@app.route('/processPicture', methods=["GET"])
-@cross_origin()
+@app.route('/processPicture', methods=['GET', 'OPTIONS'])
 def processPicture():
-    return 'alls!'
+    response = jsonify({'picture': 'sack!'})
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True)
