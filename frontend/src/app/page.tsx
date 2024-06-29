@@ -7,11 +7,20 @@ import { processPicture } from "../routes/routes";
 
 export default function Home() {
   const [picture, setPicture] = useState('original')
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setSelectedFile(event.target.files[0]);
+    }
+  };
 
   const getPicture = async() => {
     try {
-      const res: any = await processPicture();
-      setPicture(res)
+      if (selectedFile) {
+        const res: any = await processPicture(selectedFile);
+        setPicture(res)
+      }
     } catch(err: any) {
       setPicture(err)
     }
@@ -42,6 +51,18 @@ export default function Home() {
           </a>
         </div>
       </div>
+
+      <div>
+      <input type="file" onChange={handleFileChange} />
+      {selectedFile && (
+        <div>
+          <h2>Selected File:</h2>
+          <p>Name: {selectedFile.name}</p>
+          <p>Type: {selectedFile.type}</p>
+          <p>Size: {selectedFile.size} bytes</p>
+        </div>
+      )}
+    </div>
 
       <button onClick={getPicture}><h1>Button</h1></button>
       <div className={styles.center}>
