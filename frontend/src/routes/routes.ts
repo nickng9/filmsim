@@ -17,7 +17,8 @@ export const processPicture = async(file: File) => {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }});
-        return data.data.picture
+        console.log(data.data);
+        return data.data
     } catch(err) {
         if (err) {
             return err

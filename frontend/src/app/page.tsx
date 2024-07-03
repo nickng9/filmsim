@@ -3,26 +3,36 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import React from "react";
 import { useState } from "react";
+import CircularProgress from '@mui/material/CircularProgress';
 import { processPicture } from "../routes/routes";
 
 export default function Home() {
-  const [picture, setPicture] = useState('original')
+  const [picture, setPicture] = useState('original');
+  const [showProcessedPic, setShowProcessedPic] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [validFileTypeMessage, setValidFileTypeMessage] = useState('');
+  const [showLoading, setShowLoading] = useState(false);
 
   const handleFileChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
+    if (event.target.files && (event.target.files[0].type === 'image/jpeg' || event.target.files[0].type === 'image/png')) {
       setSelectedFile(event.target.files[0]);
+      setValidFileTypeMessage('')
+    } else {
+      setValidFileTypeMessage('Not a valid file type, only png or jpeg allowed.')
     }
   };
 
   const getPicture = async() => {
     try {
       if (selectedFile) {
+        setShowLoading(true);
         const res: any = await processPicture(selectedFile);
-        setPicture(res)
+        setPicture(`data:image/png;base64,${res.img}`);
+        setShowProcessedPic(true);
+        setShowLoading(false);
       }
     } catch(err: any) {
-      setPicture(err)
+      console.error(err);
     }
   }
 
@@ -54,6 +64,9 @@ export default function Home() {
 
       <div>
       <input type="file" onChange={handleFileChange} />
+
+      <h1>{validFileTypeMessage}</h1>
+    
       {selectedFile && (
         <div>
           <h2>Selected File:</h2>
@@ -66,7 +79,8 @@ export default function Home() {
 
       <button onClick={getPicture}><h1>Button</h1></button>
       <div className={styles.center}>
-        <h1>{picture}</h1>
+          {showLoading && <CircularProgress />}
+          {showProcessedPic && <img src={picture} width='50%' height='50%'/>}
       </div>
 
       <div className={styles.grid}>
