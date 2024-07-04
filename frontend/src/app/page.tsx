@@ -5,9 +5,10 @@ import React from "react";
 import { useState } from "react";
 import CircularProgress from '@mui/material/CircularProgress';
 import { processPicture } from "../routes/routes";
+import { ProcessedPictureType } from '@/types/processedPicture';
 
 export default function Home() {
-  const [picture, setPicture] = useState('original');
+  const [picture, setPicture] = useState('');
   const [showProcessedPic, setShowProcessedPic] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [validFileTypeMessage, setValidFileTypeMessage] = useState('');
@@ -25,8 +26,12 @@ export default function Home() {
   const getPicture = async() => {
     try {
       if (selectedFile) {
+        const formData = new FormData();
+        formData.append('picture', selectedFile);
+        formData.append('filmStock', 'Fuji')
+        formData.append('iso', '400')
         setShowLoading(true);
-        const res: any = await processPicture(selectedFile);
+        const res: ProcessedPictureType = await processPicture(formData);
         setPicture(`data:image/png;base64,${res.img}`);
         setShowProcessedPic(true);
         setShowLoading(false);
