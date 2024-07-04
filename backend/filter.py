@@ -1,5 +1,7 @@
 import math
+import os
 from PIL import Image
+from flask import app
 import numpy as np
 from skimage.util import random_noise 
 
@@ -22,7 +24,7 @@ def apply_hald_clut(hald_img: Image.Image, img: Image.Image) -> Image.Image:
     filtered_image = Image.fromarray(filtered_image.astype('uint8'), 'RGB')
     return filtered_image
 
-def apply_noise(hald_clut: Image.Image, img: Image.Image) -> Image.Image:
+def apply_noise(hald_clut: str, img: Image.Image) -> Image.Image:
     hald_clut = Image.open(hald_clut)
     img = Image.open(img)
     filtered_image = apply_hald_clut(hald_clut, img)

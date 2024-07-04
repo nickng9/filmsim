@@ -15,14 +15,14 @@ CORS(app)
 def processPicture():
     app.logger.info(request.files)
     if 'picture' not in request.files:
-        return jsonify({'error': 'No picture part in the request'}), 400
+        return jsonify({'error': 'No picture in the request'}), 400
 
     img = request.files['picture']
 
     if img.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    hald_clut = 'backend/routes/Kodak Portra 400 1 -.png'
+    hald_clut = 'backend/hald_cluts/Kodak Portra 400 1 -.png'
     img = apply_noise(hald_clut, img.stream)
     img_io = io.BytesIO()
     img.save(img_io, format='PNG')  # Use the determined format
