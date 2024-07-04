@@ -1,7 +1,5 @@
 import math
-import os
 from PIL import Image
-from flask import app
 import numpy as np
 from skimage.util import random_noise 
 
