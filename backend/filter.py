@@ -3,7 +3,7 @@ from PIL import Image
 import numpy as np
 from skimage.util import random_noise 
 
-def apply_hald_clut(hald_img, img):
+def apply_hald_clut(hald_img: Image.Image, img: Image.Image) -> Image.Image:
     hald_w, _ = hald_img.size
     clut_size = int(round(math.pow(hald_w, 1/3)))
     # We square the clut_size because a 12-bit hald_clut has the same amount of information as a 144-bit 3D CLUT
@@ -22,7 +22,7 @@ def apply_hald_clut(hald_img, img):
     filtered_image = Image.fromarray(filtered_image.astype('uint8'), 'RGB')
     return filtered_image
 
-def apply_noise(hald_clut, img):
+def apply_noise(hald_clut: Image.Image, img: Image.Image) -> Image.Image:
     hald_clut = Image.open(hald_clut)
     img = Image.open(img)
     filtered_image = apply_hald_clut(hald_clut, img)

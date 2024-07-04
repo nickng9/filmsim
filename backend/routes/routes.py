@@ -28,8 +28,6 @@ def processPicture():
     img.save(img_io, format='PNG')  # Use the determined format
     img_io.seek(0)
     img_data = base64.b64encode(img_io.read()).decode()
-    # img_data = img.stream.read()
-    # img_data = base64.b64encode(img_data).decode()   
 
     response = jsonify({'msg': 'Image processed', 'size': [img.width, img.height], 'format': 'PNG', 'img': img_data})
 
