@@ -22,8 +22,8 @@ def processPicture():
     if img.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    hald_clut = 'backend/hald_cluts/colour/fuji/Fuji_Superia_400.png'
-    img = apply_noise(hald_clut, img.stream)
+    hald_clut = '/Users/nicholas.ng/Documents/Developer/filmsim/backend/hald_cluts/colour/kodak/Kodak_Ektachrome_100.png'
+    img = apply_noise(hald_clut, img.stream, var=0.01)  # Adjust variance here for noise level
     img_io = io.BytesIO()
     img.save(img_io, format='PNG')  # Use the determined format
     img_io.seek(0)
