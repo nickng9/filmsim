@@ -1,9 +1,11 @@
 import base64
 import io
 from flask import Flask, jsonify, request
-import sys
+from PIL import Image
 from flask_cors import CORS, cross_origin
 import os
+import sys
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from filter import apply_noise
 
@@ -22,14 +24,27 @@ def processPicture():
     if img.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    hald_clut = '/Users/nicholas.ng/Documents/Developer/filmsim/backend/hald_cluts/Kodak Portra 400 1 -.png'
-    img = apply_noise(hald_clut, img.stream)
+    # Adjust the path to your HALD CLUT file
+    hald_clut_path = '/Users/nicholas.ng/Documents/Developer/filmsim/backend/hald_cluts/colour/kodak/Kodak_Ektachrome_100.png'
+
+    # Open image file as PIL image
+    img_pil = Image.open(img.stream)
+
+    # Apply noise and process the image
+    processed_img = apply_noise(hald_clut_path, img_pil)
+
+    # Save processed image to in-memory buffer
     img_io = io.BytesIO()
-    img.save(img_io, format='PNG')  # Use the determined format
+    processed_img.save(img_io, format='PNG')
     img_io.seek(0)
     img_data = base64.b64encode(img_io.read()).decode()
 
-    response = jsonify({'msg': 'Image processed', 'size': [img.width, img.height], 'format': 'PNG', 'img': img_data})
+    response = jsonify({
+        'msg': 'Image processed',
+        'size': [processed_img.width, processed_img.height],
+        'format': 'PNG',
+        'img': img_data
+    })
 
     return response
 
