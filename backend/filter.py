@@ -27,9 +27,9 @@ def apply_noise(hald_clut: str, img: Image.Image) -> Image.Image:
     img = Image.open(img)
     filtered_image = apply_hald_clut(hald_clut, img)
     img = np.asarray(filtered_image)
-    # gaussian_noise_img = random_noise(img, mode='gaussian', var=0.1**2)
-    # gaussian_noise_img = (255*gaussian_noise_img).astype(np.uint8)
-    # img = Image.fromarray(gaussian_noise_img)
+    gaussian_noise_img = random_noise(img, mode='gaussian', var=0.1**2)
+    gaussian_noise_img = (255*gaussian_noise_img).astype(np.uint8)
+    img = Image.fromarray(gaussian_noise_img)
 
     # Convert the NumPy array back to a PIL Image -- for testing purposes
     img = Image.fromarray(img.astype('uint8'), 'RGB')
