@@ -25,7 +25,7 @@ def processPicture():
         return jsonify({'error': 'No selected file'}), 400
 
     # Adjust the path to your HALD CLUT file
-    hald_clut_path = '/Users/nicholas.ng/Documents/Developer/filmsim/backend/hald_cluts/colour/kodak/Kodak_Ektachrome_100.png'
+    hald_clut_path = '/Users/nicholas.ng/Documents/Developer/filmsim/backend/hald_cluts/colour/kodak/Kodak_Portra_160.png'
 
     # Open image file as PIL image
     img_pil = Image.open(img.stream)

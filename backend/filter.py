@@ -43,7 +43,7 @@ def apply_hald_clut(hald_img: Image.Image, img: Image.Image) -> Image.Image:
     filtered_image = Image.fromarray(filtered_image.astype('uint8'), 'RGB')
     return filtered_image
 
-def apply_noise(hald_clut: str, img: Image.Image, scale=10, amount=0.2) -> Image.Image:
+def apply_noise(hald_clut: str, img: Image.Image, scale=8, amount=0.3) -> Image.Image:
     """
     Apply HALD CLUT and Perlin noise to an image.
 
