@@ -17,13 +17,22 @@ def apply_hald_clut(hald_img: Image.Image, img: Image.Image) -> Image.Image:
     hald_w, _ = hald_img.size
     clut_size = int(round(math.pow(hald_w, 1/3)))
     scale = (clut_size * clut_size - 1) / 255
-    img = np.asarray(img)
-    hald_img = np.asarray(hald_img).reshape(clut_size ** 6, 3)
-    clut_r = np.rint(img[:, :, 0] * scale).astype(int)
-    clut_g = np.rint(img[:, :, 1] * scale).astype(int)
-    clut_b = np.rint(img[:, :, 2] * scale).astype(int)
-    filtered_image = np.zeros((img.shape))
-    filtered_image[:, :] = hald_img[clut_r + clut_size ** 2 * clut_g + clut_size ** 4 * clut_b]
+    img_array = np.asarray(img)
+    hald_array = np.asarray(hald_img)
+
+    if hald_array.ndim == 2:
+        # Greyscale HALD CLUT
+        # Convert greyscale to RGB by stacking channels
+        hald_array = np.stack([hald_array] * 3, axis=-1)
+        hald_array = hald_array.reshape(-1, 3)
+    else:
+        hald_array = np.asarray(hald_img).reshape(clut_size ** 6, 3)
+
+    clut_r = np.rint(img_array[:, :, 0] * scale).astype(int)
+    clut_g = np.rint(img_array[:, :, 1] * scale).astype(int)
+    clut_b = np.rint(img_array[:, :, 2] * scale).astype(int)
+    filtered_image = np.zeros((img_array.shape))
+    filtered_image[:, :] = hald_array[clut_r + clut_size ** 2 * clut_g + clut_size ** 4 * clut_b]
     filtered_image = Image.fromarray(filtered_image.astype('uint8'), 'RGB')
     return filtered_image
 
