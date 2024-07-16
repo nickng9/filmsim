@@ -1,0 +1,13 @@
+/* src/styles/UploadButton.module.css */
+.uploadButton {
+    margin-top: 50px;
+  }
+  
+  .button {
+    background-color: black;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+  }
+  
