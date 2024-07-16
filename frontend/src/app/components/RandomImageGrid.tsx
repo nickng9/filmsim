@@ -6,6 +6,7 @@ const images = [
   '/images/photo1.jpg',
   '/images/photo2.jpg',
   '/images/photo3.jpg',
+  '/images/photo4.jpg',
   // Add paths to other images
 ];
 
