@@ -1,0 +1,73 @@
+/* src/styles/ContactForm.module.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .title {
+    font-family: 'Inter', sans-serif;
+    font-size: 48px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .formGroup {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+  }
+  
+  .inputGroup label {
+    margin-bottom: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .inputGroup input,
+  .inputGroup textarea {
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .submitButton {
+    background-color: black;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: #333;
+  }
+  
