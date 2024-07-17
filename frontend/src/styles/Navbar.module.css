@@ -3,26 +3,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 30px;
+  padding: 10px 20px;
   background-color: black;
-  color: white;
 }
 
-.logo a {
+.navLinks {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navLink {
   color: white;
   text-decoration: none;
-  font-family: 'Inter', sans-serif;
-  font-size: 10px;
-  font-weight: bold;
+  margin: 0 10px;
+  padding: 10px 0;
+  position: relative;
   text-transform: uppercase;
 }
 
-.navLinks a {
-  margin-left: 30px;
-  color: white;
-  text-decoration: none;
-  font-family: 'Inter', sans-serif;
-  font-size: 10px;
-  font-weight: bold;
-  text-transform: uppercase;
+.navLink:hover,
+.navLink.active {
+  text-decoration: underline;
 }
