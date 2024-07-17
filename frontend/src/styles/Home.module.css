@@ -17,6 +17,8 @@
 .title {
   font-family: 'PP Editorial New', serif;
   font-size: 10rem;
+  font-stretch: ultra-condensed;
+  letter-spacing: -0.05em;
   line-height: 1;
   text-transform: uppercase;
   color: black;
@@ -27,7 +29,7 @@
   font-size: 1.5rem;
   font-weight: normal;
   text-transform: uppercase;
-  margin: 20px 0;
+  margin-top: 5px;
   color: black;
 }
 

@@ -5,22 +5,22 @@ import React from 'react';
 import styles from '../../styles/RandomImageGrid.module.css';
 
 const images = [
-  '/images/photo1.jpg',
-  '/images/photo2.jpg',
-  '/images/photo3.jpg',
-  '/images/photo4.jpg',
+  { src: '/images/photo1.jpg', className: styles.image1 },
+  { src: '/images/photo2.jpg', className: styles.image2 },
+  { src: '/images/photo3.jpg', className: styles.image3 },
+  { src: '/images/photo4.jpg', className: styles.image4 },
   // Add paths to other images
 ];
 
 const RandomImageGrid: React.FC = () => {
   return (
     <div className={styles.grid}>
-      {images.map((src, index) => (
+      {images.map((image, index) => (
         <img
           key={index}
-          src={src}
+          src={image.src}
           alt={`Image ${index}`}
-          className={styles.image}
+          className={`${styles.image} ${image.className}`}
         />
       ))}
     </div>
