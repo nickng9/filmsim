@@ -1,6 +1,6 @@
 // src/app/contact/page.tsx
-import React from 'react';
 import styles from '../../styles/ContactForm.module.css';
+
 
 const ContactPage: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const ContactPage: React.FC = () => {
           <input type="text" placeholder="Last name" className={styles.input} />
         </div>
         <input type="email" placeholder="Email" className={styles.input} />
-        <textarea placeholder="Leave us a message here..." className={styles.textarea}></textarea>
+        <textarea placeholder="Leave us a message here..." className={styles.textarea} />
         <button type="submit" className={styles.button}>Send message</button>
       </form>
     </div>
