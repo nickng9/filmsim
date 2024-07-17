@@ -1,0 +1,43 @@
+/* src/styles/Home.module.css */
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.mainContent {
+  text-align: center;
+  margin-top: 100px;
+  position: relative;
+  z-index: 1; /* Ensure text is on top of the images */
+}
+
+.title {
+  font-family: 'PP Editorial New', serif;
+  font-size: 10rem;
+  line-height: 1;
+  text-transform: uppercase;
+  color: black;
+}
+
+.subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  margin: 20px 0;
+  color: black;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .title {
+    font-size: 3rem;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+  }
+}

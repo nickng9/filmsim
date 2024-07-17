@@ -1,0 +1,32 @@
+/* src/styles/UploadButton.module.css */
+.uploadButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.button {
+  background-color: black;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 20px;
+  border: none;
+  border-radius: 5px;
+  width: 200px; /* Adjust width as needed */
+  text-align: center;
+  display: block;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .button {
+    width: 150px;
+    font-size: 14px;
+    padding: 15px;
+  }
+}
