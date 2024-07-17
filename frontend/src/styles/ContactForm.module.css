@@ -1,9 +1,13 @@
-/* src/styles/ContactForm.module.css */
+/* src/app/contact/contact.module.css */
 .container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: flex-end;
     padding: 20px;
+  }
+  
+  .contactFormContainer {
+    width: 100%;
+    max-width: 600px;
   }
   
   .title {
@@ -17,57 +21,39 @@
   .form {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .formGroup {
-    display: flex;
-    justify-content: space-between;
   }
   
   .inputGroup {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .input {
     width: 48%;
-  }
-  
-  .inputGroup label {
-    margin-bottom: 5px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-  }
-  
-  .inputGroup input,
-  .inputGroup textarea {
     padding: 10px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    border-radius: 4px;
   }
   
-  .submitButton {
+  .textarea {
+    padding: 10px;
+    height: 150px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .button {
     background-color: black;
     color: white;
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
-    padding: 15px;
+    padding: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .submitButton:hover {
-    background-color: #333;
   }
   

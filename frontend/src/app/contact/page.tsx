@@ -1,13 +1,20 @@
 // src/app/contact/page.tsx
 import React from 'react';
-import ContactForm from './ContactForm';
 import styles from '../../styles/ContactForm.module.css';
 
 const ContactPage: React.FC = () => {
   return (
-    <div className={styles.container}>
+    <div className={styles.contactFormContainer}>
       <h1 className={styles.title}>FEEDBACK FORM</h1>
-      <ContactForm />
+      <form className={styles.form}>
+        <div className={styles.inputGroup}>
+          <input type="text" placeholder="First name" className={styles.input} />
+          <input type="text" placeholder="Last name" className={styles.input} />
+        </div>
+        <input type="email" placeholder="Email" className={styles.input} />
+        <textarea placeholder="Leave us a message here..." className={styles.textarea}></textarea>
+        <button type="submit" className={styles.button}>Send message</button>
+      </form>
     </div>
   );
 };
