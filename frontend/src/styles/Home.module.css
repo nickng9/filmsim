@@ -28,8 +28,9 @@
   font-family: 'Inter', sans-serif;
   font-size: 1.5rem;
   font-weight: normal;
+  font-stretch: ultra-condensed;
   text-transform: uppercase;
-  margin-top: 5px;
+  margin-top: 10px;
   color: black;
 }
 
