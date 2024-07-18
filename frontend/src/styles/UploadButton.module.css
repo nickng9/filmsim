@@ -1,8 +1,15 @@
 /* src/styles/UploadButton.module.css */
+.uploadContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
 .uploadButton {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  align-items: center;
 }
 
 .button {
@@ -20,6 +27,12 @@
   display: block;
   white-space: pre-wrap;
   line-height: 1.5;
+  margin: 0 20px; /* Add margin to create space between button and arrows */
+}
+
+.arrow {
+  width: 50px;
+  height: auto;
 }
 
 /* Responsive Design */
@@ -28,5 +41,10 @@
     width: 150px;
     font-size: 14px;
     padding: 15px;
+    margin: 0 10px; /* Adjust margin for smaller screens */
+  }
+
+  .arrow {
+    width: 30px; /* Adjust arrow size for smaller screens */
   }
 }
