@@ -15,7 +15,7 @@ const RandomImageGrid: React.FC = () => {
 
   useEffect(() => {
     const generateRandomPositions = () => {
-      const positions = [];
+      const positions: { top: number; left: number }[] = [];
       const generatePosition = () => ({
         top: Math.random() * 75 + 10, // Between 10% and 85%
         left: Math.random() * 75 + 10, // Between 10% and 85%
