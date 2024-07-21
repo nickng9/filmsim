@@ -5,6 +5,7 @@ import styles from '../../styles/Upload.module.css';
 import { processRequest } from '../routes/routes';
 import { ProcessedPictureType } from '@/types/processedPicture';
 import Link from 'next/link';
+import { useAppSelector, useAppDispatch, useAppStore } from '../../lib/hooks';
 
 const FileUploader = () => {
     const [errorMessage, setErrorMessage] = useState('')
@@ -14,6 +15,7 @@ const FileUploader = () => {
     // const [uploadProgress, setUploadProgress] = useState<number>(0);
     const previewRef = useRef<HTMLDivElement>(null);
     // const [isOverflow, setIsOverflow] = useState<boolean>(false);
+    const store = useAppStore();
 
     const getTotalFileSize = (files: File[]) => {
       let size = 0;
