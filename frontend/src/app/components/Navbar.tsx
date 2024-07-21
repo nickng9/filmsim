@@ -1,3 +1,6 @@
+
+// src/app/components/Navbar.tsx
+
 'use client';
 
 import React from 'react';
