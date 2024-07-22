@@ -7,11 +7,12 @@ import { ProcessedPictureType } from '@/types/processedPicture';
 import Link from 'next/link';
 import { useAppSelector, useAppDispatch } from '../../lib/hooks';
 import { setPhotos } from '@/lib/features/photos/photosSlice';
-import StoreProvider from '../StoreProvider';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const FileUploader = () => {
+    const [showFileUploader, setShowFileUploader] = useState(true);
     const [errorMessage, setErrorMessage] = useState('')
-    const [, setShowLoading] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
     // const [res, setRes] = useState('');  
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     // const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -86,31 +87,38 @@ const FileUploader = () => {
       });
     };
 
-    const filesToBufferString = async (files: File[]): Promise<string> => {
-      const base64Strings = await Promise.all(files.map(fileToBase64));
-      return base64Strings.join(',');
+    const filesToBufferArray = async (files: File[]) => {
+      try {
+        const base64Array: string[] = [];
+
+        for (const file of files) {
+            const base64 = await fileToBase64(file);
+            base64Array.push(base64);
+        }
+
+        return base64Array;
+      } catch (err) {
+        return err;
+      }
     };
 
-    const handleSubmit = () => {
-      if (selectedFiles) {
-        localStorage.setItem('photos', JSON.stringify(selectedFiles));
-        const photos = JSON.parse(localStorage.getItem('photos') || '{}');
-        console.log(photos);
-      }
-        // try {
-        //   if (selectedFiles) {
-        //     setShowLoading(true);
-        //     const bufferString = await filesToBufferString(selectedFiles);
-        //     const formData = new FormData();
-        //     formData.append('file', bufferString);
-        //     const res: ProcessedPictureType = await processRequest(formData);
-        //     // setRes(res.message);
-        //     setShowLoading(false);
-        //     // setSelectedFiles(null)
-        //   }
-        // } catch(err: unknown) {
-        //   console.error(err);
-        // }
+    const handleSubmit = async () => {
+        try {
+          if (selectedFiles.length > 0) {
+            setShowLoading(true);
+            const bufferArray = await filesToBufferArray(selectedFiles) as string[];
+            dispatch(setPhotos(bufferArray));
+            console.log(reduxFiles);
+            // const formData = new FormData();
+            // formData.append('file', bufferString);
+            // const res: ProcessedPictureType = await processRequest(formData);
+            // setRes(res.message);
+            setShowLoading(false);
+            // setSelectedFiles(null)
+          }
+        } catch(err: unknown) {
+          console.error(err);
+        }
     }
 
     const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
@@ -179,6 +187,7 @@ const FileUploader = () => {
             <button className={styles.cancelButton} onClick={handleCancel}>Cancel</button>
             <button className={styles.submitButton} onClick={handleSubmit}>Submit</button>
           </div>
+          {showLoading && <CircularProgress />}
         </div>
       </div>
     );

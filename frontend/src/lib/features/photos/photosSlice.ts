@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface PhotosState {
-    photos: File[];
+  photos: string[];
 }
 
 const initialState: PhotosState = {
-    photos: []
+  photos: []
 }
 
 export const photosSlice = createSlice({
-    name: 'photos',
-    initialState,
-    reducers: {
-      setPhotos: (state, action: PayloadAction<File[]>) => {
-        state.photos = action.payload;
-      }
+  name: 'photos',
+  initialState,
+  reducers: {
+    setPhotos: (state, action: PayloadAction<string[]>) => {
+      state.photos = action.payload;
     }
+  }
 });
 
 export const { setPhotos } = photosSlice.actions;
