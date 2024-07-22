@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { photosReducer } from './features/photos/photosSlice';
 
 export const makeStore = () => {
   return configureStore({
-    reducer: {}
+    reducer: {
+      photos: photosReducer
+    }
   })
 }
 

@@ -5,7 +5,9 @@ import styles from '../../styles/Upload.module.css';
 import { processRequest } from '../routes/routes';
 import { ProcessedPictureType } from '@/types/processedPicture';
 import Link from 'next/link';
-import { useAppSelector, useAppDispatch, useAppStore } from '../../lib/hooks';
+import { useAppSelector, useAppDispatch } from '../../lib/hooks';
+import { setPhotos } from '@/lib/features/photos/photosSlice';
+import StoreProvider from '../StoreProvider';
 
 const FileUploader = () => {
     const [errorMessage, setErrorMessage] = useState('')
@@ -15,7 +17,8 @@ const FileUploader = () => {
     // const [uploadProgress, setUploadProgress] = useState<number>(0);
     const previewRef = useRef<HTMLDivElement>(null);
     // const [isOverflow, setIsOverflow] = useState<boolean>(false);
-    const store = useAppStore();
+    const dispatch = useAppDispatch()
+    const reduxFiles = useAppSelector((state) => state.photos);
 
     const getTotalFileSize = (files: File[]) => {
       let size = 0;
@@ -44,12 +47,16 @@ const FileUploader = () => {
       } else {
         setErrorMessage('');
         setSelectedFiles(files);
+        // dispatch(setPhotos(files));
+        // console.log(reduxFiles);
       }
       // setUploadProgress(70); // Example progress, adjust as needed
     };
 
     const handleCancel = () => {
       setSelectedFiles([]);
+      // dispatch(setPhotos([]));
+      // console.log(reduxFiles);
       // setUploadProgress(0);
       setErrorMessage('');
     };
@@ -84,21 +91,26 @@ const FileUploader = () => {
       return base64Strings.join(',');
     };
 
-    const handleSubmit = async() => {
-        try {
-          if (selectedFiles) {
-            setShowLoading(true);
-            const bufferString = await filesToBufferString(selectedFiles);
-            const formData = new FormData();
-            formData.append('file', bufferString);
-            const res: ProcessedPictureType = await processRequest(formData);
-            // setRes(res.message);
-            setShowLoading(false);
-            // setSelectedFiles(null)
-          }
-        } catch(err: unknown) {
-          console.error(err);
-        }
+    const handleSubmit = () => {
+      if (selectedFiles) {
+        localStorage.setItem('photos', JSON.stringify(selectedFiles));
+        const photos = JSON.parse(localStorage.getItem('photos') || '{}');
+        console.log(photos);
+      }
+        // try {
+        //   if (selectedFiles) {
+        //     setShowLoading(true);
+        //     const bufferString = await filesToBufferString(selectedFiles);
+        //     const formData = new FormData();
+        //     formData.append('file', bufferString);
+        //     const res: ProcessedPictureType = await processRequest(formData);
+        //     // setRes(res.message);
+        //     setShowLoading(false);
+        //     // setSelectedFiles(null)
+        //   }
+        // } catch(err: unknown) {
+        //   console.error(err);
+        // }
     }
 
     const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
