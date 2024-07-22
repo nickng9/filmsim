@@ -83,20 +83,25 @@ const FileUploader = () => {
     };
 
     const handleSubmit = async() => {
-        try {
-          if (selectedFiles) {
-            setShowLoading(true);
-            const bufferString = await filesToBufferString(selectedFiles);
-            const formData = new FormData();
-            formData.append('file', bufferString);
-            const res: ProcessedPictureType = await processRequest(formData);
-            // setRes(res.message);
-            setShowLoading(false);
-            // setSelectedFiles(null)
-          }
-        } catch(err: unknown) {
-          console.error(err);
-        }
+      if (selectedFiles) {
+        localStorage.setItem('photos', JSON.stringify(selectedFiles));
+        const photos = JSON.parse(localStorage.getItem('photos') || '{}');
+        console.log(photos);
+      }
+        // try {
+        //   if (selectedFiles) {
+        //     setShowLoading(true);
+        //     const bufferString = await filesToBufferString(selectedFiles);
+        //     const formData = new FormData();
+        //     formData.append('file', bufferString);
+        //     const res: ProcessedPictureType = await processRequest(formData);
+        //     // setRes(res.message);
+        //     setShowLoading(false);
+        //     // setSelectedFiles(null)
+        //   }
+        // } catch(err: unknown) {
+        //   console.error(err);
+        // }
     }
 
     const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
