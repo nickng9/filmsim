@@ -1,0 +1,50 @@
+.filmSelectorContainer {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    color: #fff;
+  }
+  
+  .categoryButtons,
+  .brandButtons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .categoryButton,
+  .brandButton {
+    background: #555;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .categoryButton.active,
+  .brandButton.active {
+    background: #000;
+  }
+  
+  .filmList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .filmItem {
+    background: #444;
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .filmItem:hover {
+    background: #666;
+  }
+  

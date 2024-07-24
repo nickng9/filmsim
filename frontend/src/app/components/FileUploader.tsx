@@ -1,7 +1,5 @@
-// src/app/components/FileUploader.tsx
 'use client';
-
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../../styles/Upload.module.css';
 import { useAppDispatch } from '../../lib/hooks';
@@ -24,9 +22,9 @@ const FileUploader = () => {
         } else if ('dataTransfer' in event && event.dataTransfer) {
             files = Array.from(event.dataTransfer.files);
         }
-        if (selectedFiles.length + files.length > 10) {
-            setErrorMessage('Error: Cannot upload more than 10 files in total');
-        } else if (getTotalFileSize(selectedFiles.concat(files)) > 25) {
+        if (files.length > 10) {
+            setErrorMessage('Error: Cannot upload more than 10 files at once');
+        } else if (getTotalFileSize([...selectedFiles, ...files]) > 25) {
             setErrorMessage('Error: Max total upload size is 25mb');
         } else {
             setErrorMessage('');
