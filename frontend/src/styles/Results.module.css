@@ -1,14 +1,33 @@
-/* src/styles/Results.module.css */
 .resultsContainer {
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #f0f0f0; /* Example background */
-  min-height: 100vh; /* Ensure the page covers the full height */
+  background: #f0f0f0;
+  min-height: 100vh;
 }
 
 .title {
   font-size: 2rem;
   margin-bottom: 20px;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mainImage {
+  max-width: 500px;
+  max-height: 500px;
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }

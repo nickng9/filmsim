@@ -1,0 +1,28 @@
+.filmSelectionList {
+    width: 200px;
+    margin-right: 20px;
+  }
+  
+  .dropdown {
+    margin-bottom: 10px;
+  }
+  
+  .dropdownHeader {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .dropdownContent {
+    margin-left: 10px;
+  }
+  
+  .brandHeader {
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  
+  .filmItem {
+    margin-left: 20px;
+  }
+  

@@ -2,31 +2,63 @@
 .filmSelectorContainer {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 250px;
+  background: #1f1f1f; /* Dark background */
+  padding: 20px;
+  border-radius: 8px;
+  color: #f7f7f7; /* Light text color */
 }
 
-.categoryButtons, .brandButtons, .filmList {
+.categoryButtons, .brandButtons {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
   margin-bottom: 10px;
 }
 
 .categoryButton, .brandButton {
-  padding: 5px 10px;
+  padding: 10px;
   cursor: pointer;
+  background: #333;
+  border: none;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  text-align: left;
+  color: #f7f7f7;
+  transition: background 0.3s ease;
+}
+
+.categoryButton:hover, .brandButton:hover {
+  background: #555;
 }
 
 .categoryButton.active, .brandButton.active {
   font-weight: bold;
+  background: #444;
+}
+
+.filmList {
+  display: flex;
+  flex-direction: column;
 }
 
 .filmItem {
-  padding: 5px 10px;
+  padding: 10px;
   cursor: pointer;
+  background: #333;
+  border: none;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  color: #f7f7f7;
+  transition: background 0.3s ease;
+}
+
+.filmItem:hover {
+  background: #555;
 }
 
 .filmItem.selected {
   font-weight: bold;
+  background: #444;
 }
 
 .processedPreview {
