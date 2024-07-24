@@ -1,14 +1,17 @@
 // src/app/layout.tsx
 import './globals.css';
 import Navbar from './components/Navbar';
+import StoreProvider from './StoreProvider'; // Ensure this is correctly imported
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head />
       <body>
-        <Navbar />
-        {children}
+        <StoreProvider>
+          <Navbar />
+          {children}
+        </StoreProvider>
       </body>
     </html>
   );

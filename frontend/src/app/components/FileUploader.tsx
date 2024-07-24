@@ -1,195 +1,97 @@
+// src/app/components/FileUploader.tsx
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from '../../styles/Upload.module.css';
-// import CircularProgress from '@mui/material/CircularProgress';
-import { processRequest } from '../routes/routes';
-import { ProcessedPictureType } from '@/types/processedPicture';
-import Link from 'next/link';
-import { useAppSelector, useAppDispatch } from '../../lib/hooks';
+import { useAppDispatch } from '../../lib/hooks';
 import { setPhotos } from '@/lib/features/photos/photosSlice';
 import CircularProgress from '@mui/material/CircularProgress';
+import Link from 'next/link';
 
 const FileUploader = () => {
-    const [showFileUploader, setShowFileUploader] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('')
-    const [showLoading, setShowLoading] = useState(false);
-    // const [res, setRes] = useState('');  
+    const router = useRouter();  // Use the useRouter hook to handle routing
+    const dispatch = useAppDispatch();
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-    // const [uploadProgress, setUploadProgress] = useState<number>(0);
-    const previewRef = useRef<HTMLDivElement>(null);
-    // const [isOverflow, setIsOverflow] = useState<boolean>(false);
-    const dispatch = useAppDispatch()
-    const reduxFiles = useAppSelector((state) => state.photos);
+    const [showLoading, setShowLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLLabelElement>) => {
+        event.preventDefault();
+        let files: File[] = [];
+        if ('files' in event.target && event.target.files) {
+            files = Array.from(event.target.files);
+        } else if ('dataTransfer' in event && event.dataTransfer) {
+            files = Array.from(event.dataTransfer.files);
+        }
+        if (selectedFiles.length + files.length > 10) {
+            setErrorMessage('Error: Cannot upload more than 10 files in total');
+        } else if (getTotalFileSize(selectedFiles.concat(files)) > 25) {
+            setErrorMessage('Error: Max total upload size is 25mb');
+        } else {
+            setErrorMessage('');
+            setSelectedFiles(prevFiles => [...prevFiles, ...files]);
+        }
+    };
 
     const getTotalFileSize = (files: File[]) => {
-      let size = 0;
-
-      files.forEach(file => {
-        size += file.size;
-      });
-
-      return size / 1000000;
-    };
-  
-    const handleFileChange = (
-      event: React.ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLLabelElement>
-    ) => {
-      event.preventDefault();
-      let files: File[] = [];
-      if ('files' in event.target && event.target.files) {
-        files = Array.from(event.target.files);
-      } else if ('dataTransfer' in event && event.dataTransfer) {
-        files = Array.from(event.dataTransfer.files);
-      }
-      if (files.length > 10) {
-        setErrorMessage('Error: Can not upload more then 10 files at once');
-      } else if (getTotalFileSize(files) > 25) {
-        setErrorMessage('Error: Max total upload size is 25mb');
-      } else {
-        setErrorMessage('');
-        setSelectedFiles(files);
-        // dispatch(setPhotos(files));
-        // console.log(reduxFiles);
-      }
-      // setUploadProgress(70); // Example progress, adjust as needed
-    };
-
-    const handleCancel = () => {
-      setSelectedFiles([]);
-      // dispatch(setPhotos([]));
-      // console.log(reduxFiles);
-      // setUploadProgress(0);
-      setErrorMessage('');
-    };
-
-    const removeFile = (index: number) => {
-      const newFiles = selectedFiles.filter((_, i) => i !== index);
-      setSelectedFiles(newFiles);
-    };
-
-    const fileToBase64 = (file: File): Promise<string> => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        
-        reader.onload = () => {
-          if (reader.result) {
-            resolve(reader.result.toString());
-          } else {
-            reject(new Error('Could not convert file to base64 string'));
-          }
-        };
-    
-        reader.onerror = () => {
-          reject(new Error('File reading error'));
-        };
-    
-        reader.readAsDataURL(file);
-      });
+        return files.reduce((sum, file) => sum + file.size, 0) / 1000000; // Convert bytes to megabytes
     };
 
     const filesToBufferArray = async (files: File[]) => {
-      try {
-        const base64Array: string[] = [];
-
-        for (const file of files) {
-            const base64 = await fileToBase64(file);
-            base64Array.push(base64);
-        }
-
-        return base64Array;
-      } catch (err) {
-        return err;
-      }
+        return Promise.all(files.map(fileToBase64));
     };
+
+    const fileToBase64 = (file: File) => new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+    });
 
     const handleSubmit = async () => {
-        try {
-          if (selectedFiles.length > 0) {
+        if (selectedFiles.length > 0) {
             setShowLoading(true);
-            const bufferArray = await filesToBufferArray(selectedFiles) as string[];
-            dispatch(setPhotos(bufferArray));
-            console.log(reduxFiles);
-            // const formData = new FormData();
-            // formData.append('file', bufferString);
-            // const res: ProcessedPictureType = await processRequest(formData);
-            // setRes(res.message);
+            const bufferArray = await filesToBufferArray(selectedFiles);
+            dispatch(setPhotos(bufferArray));  // Assuming these are paths or base64 strings
             setShowLoading(false);
-            // setSelectedFiles(null)
-          }
-        } catch(err: unknown) {
-          console.error(err);
+            router.push('/results');  // Navigate to results after setting photos
         }
-    }
-
-    const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
-      event.preventDefault();
     };
 
-    // useEffect(() => {
-    //   const checkOverflow = () => {
-    //     if (previewRef.current) {
-    //       setIsOverflow(previewRef.current.scrollWidth > previewRef.current.clientWidth);
-    //     }
-    //   };
-    //   checkOverflow();
-    //   window.addEventListener('resize', checkOverflow);
-    //   return () => {
-    //     window.removeEventListener('resize', checkOverflow);
-    //   };
-    // }, [selectedFiles]);
-
     return (
-      <div className={styles.modal}>
-        <div className={styles.modalContent}>
-          <div className={styles.header}>
-            <h2>Upload File</h2>
-            <Link href="/" className={styles.exitButton}><h1>&times;</h1></Link>
-          </div>
-          <label 
-            htmlFor="fileInput" 
-            className={styles.uploadArea}
-            onDragOver={(e) => handleDragOver(e)}
-            onDrop={(e) => handleFileChange(e)}
-          >
-            <input
-              id="fileInput"
-              type="file"
-              multiple
-              accept=".jpg,.png"
-              onChange={handleFileChange}
-              className={styles.fileInput}
-            />
-            <p>
-            Drag and drop your file here or{' '}
-              <span className={styles.browse}>Browse</span>
-            </p>
-          </label>
-          <div className={styles.supportedFormatsContainer}>
-            <p className={styles.supportedFormats}>Supported formats: jpg, png</p>
-            <p className={styles.maxSize}>Maximum Size: 25mb, 10 files</p>
-          </div>
-          {selectedFiles.length > 0 && (
-            <div className={styles.preview}>
-              {selectedFiles.map((file, index) => (
-                <div key={index} className={styles.previewItem}>
-                  <img src={URL.createObjectURL(file)} alt="Preview" />
-                  <button className={styles.deleteButton} onClick={() => removeFile(index)}>&times;</button>
+        <div className={styles.modal}>
+            <div className={styles.modalContent}>
+                <div className={styles.header}>
+                    <h2>Upload File</h2>
+                    <Link href="/" className={styles.exitButton}><h1>&times;</h1></Link>
                 </div>
-              ))}
-              {/* {isOverflow && (
-                <div className={styles.moreFiles}>+{selectedFiles.length} more</div>
-              )} */}
+                <label htmlFor="fileInput" className={styles.uploadArea} onDragOver={(e) => e.preventDefault()} onDrop={handleFileChange}>
+                    <input id="fileInput" type="file" multiple accept=".jpg,.png" onChange={handleFileChange} className={styles.fileInput} />
+                    <p>Drag and drop your file here or <span className={styles.browse}>Browse</span></p>
+                </label>
+                <div className={styles.supportedFormatsContainer}>
+                    <p className={styles.supportedFormats}>Supported formats: jpg, png</p>
+                    <p className={styles.maxSize}>Maximum Size: 25mb, 10 files</p>
+                </div>
+                {selectedFiles.length > 0 && (
+                    <div className={styles.preview}>
+                        {selectedFiles.map((file, index) => (
+                            <div key={index} className={styles.previewItem}>
+                                <img src={URL.createObjectURL(file)} alt="Preview" />
+                                <button className={styles.deleteButton} onClick={() => setSelectedFiles(selectedFiles.filter((_, i) => i !== index))}>&times;</button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+                <h3>{errorMessage}</h3>
+                <div className={styles.actions}>
+                    <button className={styles.cancelButton} onClick={() => setSelectedFiles([])}>Cancel</button>
+                    <button className={styles.submitButton} onClick={handleSubmit}>Submit</button>
+                </div>
+                {showLoading && <CircularProgress />}
             </div>
-          )}
-          {/* <div className={styles.progressBar} style={{ width: `${uploadProgress}%` }}></div> */}
-          <h3>{errorMessage}</h3>
-          <div className={styles.actions}>
-            <button className={styles.cancelButton} onClick={handleCancel}>Cancel</button>
-            <button className={styles.submitButton} onClick={handleSubmit}>Submit</button>
-          </div>
-          {showLoading && <CircularProgress />}
         </div>
-      </div>
     );
 };
 

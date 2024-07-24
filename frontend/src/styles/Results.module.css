@@ -1,0 +1,14 @@
+/* src/styles/Results.module.css */
+.resultsContainer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f0f0f0; /* Example background */
+  min-height: 100vh; /* Ensure the page covers the full height */
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}

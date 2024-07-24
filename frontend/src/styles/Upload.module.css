@@ -9,7 +9,8 @@
     width: 100%;
     height: 100%;
     z-index: 1000;
-    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    pointer-events: auto;
 }
   
 .modalContent {
@@ -17,28 +18,20 @@
     padding: 20px;
     border-radius: 8px;
     border-color: gray;
-    width: 40%;
-    height: 50%;
+    width: 60%;
+    max-width: 800px;
+    height: auto; /* Adjust height */
     position: relative;
     text-align: center;
     pointer-events: auto;
-    box-shadow: 5px 10px 18px rgb(147, 147, 147);
-}
-
-.dragAndDropDesc {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
-    margin-left: 20px;
-    margin-right: 20px;
-    /* margin-bottom: 20px; */
+    align-items: center; /* Center items vertically */
     font-family: 'Inter', sans-serif;
 }
 
@@ -47,28 +40,25 @@
     cursor: pointer;
     outline: none;
     background-color: white;
-    margin-right: 0;
-    margin-left: auto;
     color: #777;
     text-decoration: none;
+    font-size: 1.5rem;
+    margin-right: -10px;
+    margin-top: -10px;
 }
 
 .uploadArea {
     border: 2px dashed #ccc;
     border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 40px;
+    margin: 20px 0;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* height: 120px; */
-    height: 40%;
     justify-content: center;
-    margin-left: 20px;
-    margin-right: 20px;
     font-family: 'Inter', sans-serif;
-  }  
+}
 
 .fileInput {
     display: none;
@@ -80,20 +70,20 @@
     cursor: pointer;
 }
 
-.supportedFormats,
-    .maxSize {
-        font-size: 15px;
-        color: #696969;
-        margin-top: -10px;
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-
 .supportedFormatsContainer {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
     font-family: 'Inter', sans-serif;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.supportedFormats,
+.maxSize {
+    font-size: 14px;
+    color: #696969;
 }
 
 .preview {
@@ -101,92 +91,35 @@
     overflow-x: auto;
     margin-bottom: 20px;
     background-color: #dcdcdc;
-    height: 20%;
     border-radius: 8px;
     align-items: center;
-    margin-left: 20px;
-    margin-right: 20px;
-    position: relative;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .previewItem {
-    width: 10%;
-    height: 70%;
-    margin-right: 20px;
+    min-width: 100px;
+    height: 100px;
+    margin-right: 10px;
     position: relative;
-}
-
-.previewItem img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-left: 20px;
-}
-
-/* .moreFiles {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 10%;
-    height: 70%;
-    background: #f0f0f0;
-    border-radius: 4px;
-    font-size: 12px;
-    margin-left: 20px;
-    margin-right: 20px;
-    border-radius: 8px;
-    font-family: 'Inter', sans-serif;
-}
-
-.progressBar {
-    height: 4px;
-    background: green;
-    margin-bottom: 20px;
-} */
-
-.actions {
-    /* display: flex;
-    justify-content: space-between; */
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    float:right
-}
-
-.cancelButton,
-.submitButton {
-    padding: 10px 20px;
-    border-radius: 8px;
-    border-width: thin;
-    width: 110px;
-    height: 40px;
-    cursor: pointer;
-    outline: none;
-    margin-left: 10px;
-    margin-right: 20px;
-    margin-top: -10px;
-    margin-bottom: 20px;
-    font-family: 'Inter', sans-serif;
-}
-
-.cancelButton {
     background: white;
-    color: black;
-    border-color:grey;
-    margin-right: -1px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.submitButton {
-    background: black;
-    color: white;
-    border-color: black;
+.previewItem img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
 }
 
 .deleteButton {
     position: absolute;
     top: -5px;
-    right: -25px;
+    right: -5px;
     background: white;
     color: black;
     border: none;
@@ -197,4 +130,33 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    font-size: 1rem;
 }
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.cancelButton,
+.submitButton {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+}
+
+.cancelButton {
+    background: white;
+    color: black;
+    border: 1px solid grey;
+}
+
+.submitButton {
+    background: black;
+    color: white;
+}
+
