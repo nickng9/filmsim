@@ -1,3 +1,4 @@
+// src/app/components/FilmSelector.tsx
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/FilmSelector.module.css';
 import filmData, { FilmData } from '@/lib/filmData';
@@ -36,6 +37,8 @@ const FilmSelector: React.FC<{ selectedImage: string | null }> = ({ selectedImag
     }
   };
 
+  const films = filmData[selectedCategory][selectedBrand as keyof (typeof filmData)['bw' | 'colour']] as string[];
+
   return (
     <div className={styles.filmSelectorContainer}>
       <div className={styles.categoryButtons}>
@@ -64,7 +67,7 @@ const FilmSelector: React.FC<{ selectedImage: string | null }> = ({ selectedImag
         ))}
       </div>
       <div className={styles.filmList}>
-        {filmData[selectedCategory][selectedBrand].map((film) => (
+        {films.map((film) => (
           <div
             key={film}
             className={`${styles.filmItem} ${appliedFilm[selectedImage || ''] === film ? styles.selected : ''}`}

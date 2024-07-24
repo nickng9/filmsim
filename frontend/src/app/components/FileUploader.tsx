@@ -1,5 +1,6 @@
+// src/app/components/FileUploader.tsx
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../../styles/Upload.module.css';
 import { useAppDispatch } from '../../lib/hooks';
@@ -8,7 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Link from 'next/link';
 
 const FileUploader = () => {
-    const router = useRouter();  // Use the useRouter hook to handle routing
+    const router = useRouter();  
     const dispatch = useAppDispatch();
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [showLoading, setShowLoading] = useState(false);
@@ -33,7 +34,7 @@ const FileUploader = () => {
     };
 
     const getTotalFileSize = (files: File[]) => {
-        return files.reduce((sum, file) => sum + file.size, 0) / 1000000; // Convert bytes to megabytes
+        return files.reduce((sum, file) => sum + file.size, 0) / 1000000; 
     };
 
     const filesToBufferArray = async (files: File[]) => {
@@ -51,9 +52,9 @@ const FileUploader = () => {
         if (selectedFiles.length > 0) {
             setShowLoading(true);
             const bufferArray = await filesToBufferArray(selectedFiles);
-            dispatch(setPhotos(bufferArray));  // Assuming these are paths or base64 strings
+            dispatch(setPhotos(bufferArray));  
             setShowLoading(false);
-            router.push('/results');  // Navigate to results after setting photos
+            router.push('/results'); 
         }
     };
 

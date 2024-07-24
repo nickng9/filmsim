@@ -1,25 +1,14 @@
+/* src/styles/Results.module.css */
 .resultsContainer {
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  background: #f0f0f0; /* Example background */
+  min-height: 100vh; /* Ensure the page covers the full height */
 }
 
-.imageList {
-  display: flex;
-  overflow-x: auto;
-  width: 80%;
-}
-
-.imageItem {
-  width: 100px;
-  height: 100px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.imageItem img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.title {
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
