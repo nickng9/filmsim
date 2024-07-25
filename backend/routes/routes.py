@@ -23,7 +23,7 @@ def processPicture():
     if img.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    hald_clut = 'backend/'+request.form['filmStock']
+    hald_clut = 'backend/hald_cluts/'+request.form['filmStock']
     # hald_clut = 'backend/hald_cluts/colour/fuji/Fuji_Superia_400.png'
 
     img = apply_noise(hald_clut, img.stream, var=0.01)  # Adjust variance here for noise level
