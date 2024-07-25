@@ -13,7 +13,7 @@ CORS(app)
 @app.route('/processPicture', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def processPicture():
-    app.logger.info(request.files)
+    app.logger.info(request.form['filmStock'])
     app.logger.info(request)
     if 'image' not in request.files:
         return jsonify({'error': 'No image in the request'}), 400
@@ -23,7 +23,7 @@ def processPicture():
     if img.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    hald_clut = 'backend/hald_cluts/bw/ilford/Ilford_Delta_400.png'
+    hald_clut = 'backend/'+request.form['filmStock']
     # hald_clut = 'backend/hald_cluts/colour/fuji/Fuji_Superia_400.png'
 
     img = apply_noise(hald_clut, img.stream, var=0.01)  # Adjust variance here for noise level
