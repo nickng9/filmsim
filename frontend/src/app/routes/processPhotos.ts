@@ -6,7 +6,6 @@ export const processPhotos = async(formData: any) => {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }});
-        console.log(data.data);
         return data.data
     } catch(err) {
         if (err) {

@@ -4,11 +4,12 @@ import styles from '../../styles/FilmSelector.module.css';
 import filmData, { FilmData } from '@/types/filmData';
 import { processPhotos } from '../routes/processPhotos';
 import { FilmSelectorProps } from '@/types/componentPropsTypes';
+import { ProcessedPictureType } from '@/types/processedPicture';
 
 type Category = 'bw' | 'colour';
 type Brand = keyof FilmData['bw'] | keyof FilmData['colour'];
 
-const FilmSelector: React.FC<FilmSelectorProps> = ({ selectedImage, imageFile }) => {
+const FilmSelector: React.FC<FilmSelectorProps> = ({ selectedImage, imageFile, getFilteredImage }) => {
   const [selectedCategory, setSelectedCategory] = useState<Category>('bw');
   const [selectedBrand, setSelectedBrand] = useState<Brand>('ilford');
   const [appliedFilm, setAppliedFilm] = useState<{ [key: string]: string }>({});
@@ -38,7 +39,8 @@ const FilmSelector: React.FC<FilmSelectorProps> = ({ selectedImage, imageFile })
         const formData = new FormData();
         formData.append('image', imageFile);
         formData.append('filmStock', film);
-        const result: any = await processPhotos(formData);
+        const result: ProcessedPictureType = await processPhotos(formData);
+        getFilteredImage(result.img);
         console.log(result);
       }
     } catch (err) {

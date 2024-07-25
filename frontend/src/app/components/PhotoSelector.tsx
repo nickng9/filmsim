@@ -5,7 +5,7 @@ import { useAppSelector } from '../../lib/hooks';
 import styles from '../../styles/PhotoSelector.module.css';
 import { PhotoSelectorProps } from '@/types/componentPropsTypes';
 
-const PhotoSelector: React.FC<PhotoSelectorProps> = ({getSelectedImage}) => {
+const PhotoSelector: React.FC<PhotoSelectorProps> = ({getSelectedImage, filteredImage}) => {
   const photos = useAppSelector(state => state.photos.photos);
   const [selectedImage, setSelectedImage] = useState<string | null>(photos.length > 0 ? photos[0] : null);
 
@@ -14,6 +14,9 @@ const PhotoSelector: React.FC<PhotoSelectorProps> = ({getSelectedImage}) => {
       <div className={styles.imagePreviewContainer}>
         <div className={styles.imagePreview}>
           {selectedImage ? <img src={selectedImage} alt="Selected" className={styles.displayImage} /> : 'Select an image'}
+        </div>
+        <div>
+          {filteredImage ? <img src={`data:image/png;base64,${filteredImage}`} className={styles.displayImage}/> : 'No filtered image'}
         </div>
       </div>
       <div className={styles.imageList}>

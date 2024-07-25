@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useState } from 'react';
 import styles from '../../styles/Results.module.css';
 import PhotoSelector from '../components/PhotoSelector';
@@ -8,6 +7,7 @@ import FilmSelector from '../components/FilmSelector';
 const ResultsPage: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const selectedImageURL = selectedImage ? URL.createObjectURL(selectedImage) : '';
+  const [filteredImage, setfilteredImage] = useState('')
 
   const getSelectedImage = (image: string) => {
     if (image) {
@@ -27,13 +27,17 @@ const ResultsPage: React.FC = () => {
     }
   };
 
+  const getFilteredImage = (image: string) => {
+    setfilteredImage(image);
+  }
+
   return (
     <div className={styles.resultsContainer}>
       <h1 className={styles.title}>Results</h1>
       <div className={styles.content}>
-        <FilmSelector selectedImage={selectedImageURL} imageFile={selectedImage} />
+        <FilmSelector selectedImage={selectedImageURL} imageFile={selectedImage} getFilteredImage={getFilteredImage}/>
         <div className={styles.mainContent}>
-          <PhotoSelector getSelectedImage={getSelectedImage} />
+          <PhotoSelector getSelectedImage={getSelectedImage} filteredImage={filteredImage} />
           {selectedImageURL && <img className={styles.mainImage} src={selectedImageURL} alt="Selected" />}
         </div>
       </div>
