@@ -1,13 +1,14 @@
 // src/app/components/FilmSelector.tsx
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/FilmSelector.module.css';
-import filmData, { FilmData } from '@/lib/filmData';
-import { processPhoto } from '@/lib/api';
+import filmData, { FilmData } from '@/types/filmData';
+import { processPhotos } from '../routes/processPhotos';
+import { FilmSelectorProps } from '@/types/componentPropsTypes';
 
 type Category = 'bw' | 'colour';
 type Brand = keyof FilmData['bw'] | keyof FilmData['colour'];
 
-const FilmSelector: React.FC<{ selectedImage: string | null }> = ({ selectedImage }) => {
+const FilmSelector: React.FC<FilmSelectorProps> = ({ selectedImage, imageFile }) => {
   const [selectedCategory, setSelectedCategory] = useState<Category>('bw');
   const [selectedBrand, setSelectedBrand] = useState<Brand>('ilford');
   const [appliedFilm, setAppliedFilm] = useState<{ [key: string]: string }>({});
@@ -15,12 +16,12 @@ const FilmSelector: React.FC<{ selectedImage: string | null }> = ({ selectedImag
   const [expandedCategory, setExpandedCategory] = useState<Category | null>(null);
   const [expandedBrand, setExpandedBrand] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (selectedImage && appliedFilm[selectedImage]) {
-      processPhoto(selectedImage, appliedFilm[selectedImage])
-        .then((result) => setProcessedImage(result));
-    }
-  }, [selectedImage, appliedFilm]);
+  // useEffect(() => {
+  //   if (selectedImage && appliedFilm[selectedImage]) {
+  //     processPhoto(selectedImage, appliedFilm[selectedImage])
+  //       .then((result) => setProcessedImage(result));
+  //   }
+  // }, [selectedImage, appliedFilm]);
 
   const handleCategoryToggle = (category: Category) => {
     setExpandedCategory(expandedCategory === category ? null : category);
@@ -30,11 +31,18 @@ const FilmSelector: React.FC<{ selectedImage: string | null }> = ({ selectedImag
     setExpandedBrand(expandedBrand === brand ? null : brand);
   };
 
-  const handleFilmStockSelect = (film: string) => {
-    if (selectedImage) {
-      setAppliedFilm((prev) => ({ ...prev, [selectedImage]: film }));
-      processPhoto(selectedImage, film)
-        .then((result) => setProcessedImage(result));
+  const handleFilmStockSelect = async (film: string) => {
+    try {
+      if (selectedImage && imageFile) {
+        setAppliedFilm((prev) => ({ ...prev, [selectedImage]: film }));
+        const formData = new FormData();
+        formData.append('image', imageFile);
+        formData.append('filmStock', film);
+        const result: any = await processPhotos(formData);
+        console.log(result);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 

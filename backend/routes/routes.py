@@ -14,10 +14,11 @@ CORS(app)
 @cross_origin()
 def processPicture():
     app.logger.info(request.files)
-    if 'picture' not in request.files:
-        return jsonify({'error': 'No picture in the request'}), 400
+    app.logger.info(request)
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image in the request'}), 400
 
-    img = request.files['picture']
+    img = request.files['image']
 
     if img.filename == '':
         return jsonify({'error': 'No selected file'}), 400

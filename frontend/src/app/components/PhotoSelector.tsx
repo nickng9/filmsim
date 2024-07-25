@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '../../lib/hooks';
 import styles from '../../styles/PhotoSelector.module.css';
+import { PhotoSelectorProps } from '@/types/componentPropsTypes';
 
-const PhotoSelector: React.FC = () => {
+const PhotoSelector: React.FC<PhotoSelectorProps> = ({getSelectedImage}) => {
   const photos = useAppSelector(state => state.photos.photos);
   const [selectedImage, setSelectedImage] = useState<string | null>(photos.length > 0 ? photos[0] : null);
 
@@ -20,7 +21,10 @@ const PhotoSelector: React.FC = () => {
           <div
             key={index}
             className={`${styles.imageItem} ${selectedImage === image ? styles.selected : ''}`}
-            onClick={() => setSelectedImage(image)}
+            onClick={() => {
+              setSelectedImage(image);
+              getSelectedImage(image);
+            }}
           >
             <img src={image} alt={`Thumbnail ${index + 1}`} />
           </div>

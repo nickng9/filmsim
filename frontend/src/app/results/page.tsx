@@ -9,13 +9,31 @@ const ResultsPage: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const selectedImageURL = selectedImage ? URL.createObjectURL(selectedImage) : '';
 
+  const getSelectedImage = (image: string) => {
+    if (image) {
+      const fileType: string = image.split(':').pop()?.split(';')[0] || 'default/filetype';
+      const base64Str = image.split(',').pop() as string;
+      const imageContent = atob(base64Str);
+      const buffer = new ArrayBuffer(imageContent.length);
+      const view = new Uint8Array(buffer);
+    
+      for (let n = 0; n < imageContent.length; n++) {
+        view[n] = imageContent.charCodeAt(n);
+      }
+
+      const blob = new Blob([buffer], { type: fileType });
+      const file = new File([blob], `${new Date().toISOString()}`, { lastModified: new Date().getTime(), type: fileType });
+      setSelectedImage(file);
+    }
+  };
+
   return (
     <div className={styles.resultsContainer}>
       <h1 className={styles.title}>Results</h1>
       <div className={styles.content}>
-        <FilmSelector selectedImage={selectedImageURL} />
+        <FilmSelector selectedImage={selectedImageURL} imageFile={selectedImage} />
         <div className={styles.mainContent}>
-          <PhotoSelector selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
+          <PhotoSelector getSelectedImage={getSelectedImage} />
           {selectedImageURL && <img className={styles.mainImage} src={selectedImageURL} alt="Selected" />}
         </div>
       </div>

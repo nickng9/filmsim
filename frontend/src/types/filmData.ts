@@ -1,4 +1,3 @@
-// src/lib/filmData.ts
 interface FilmData {
   bw: {
     ilford: string[];
@@ -10,8 +9,6 @@ interface FilmData {
   };
 }
 
-
-// src/lib/filmData.ts
 const filmData: FilmData = {
   bw: {
     ilford: [
